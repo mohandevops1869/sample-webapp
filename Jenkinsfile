@@ -1,7 +1,6 @@
 pipeline{
     agent any
     environment { 
-    registry =  muppireddidevops/pythonapp  
     DOCKERHUB_CREDENTIALS= credentials('docker-hub-credientials')
     dockerImage = ''     
     } 
