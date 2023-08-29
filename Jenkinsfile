@@ -1,7 +1,9 @@
 pipeline{
     agent any
-    environment {     
-    DOCKERHUB_CREDENTIALS= credentials('docker-hub-credientials')     
+    environment { 
+    registry =  muppireddidevops/pythonapp  
+    DOCKERHUB_CREDENTIALS= credentials('docker-hub-credientials')
+    dockerImage = ''     
     } 
     stages{
       stage('Build Docker Image') {  
@@ -16,12 +18,15 @@ pipeline{
                 echo 'Login Completed'      
             }           
         }
-        stage('Push Image to Docker Hub') {         
-            steps{                            
-              sh 'docker push pythomimage'           
-              echo 'Push Image Completed'       
-            }            
-        }  
+         stage("Push Docker"){
+            steps {
+                script {
+                    docker.withRegistry( '', DOCKERHUB_CREDENTIALS  ) {
+                    dockerImage.push()
+                    }
+                }    
+            }
+        }
                 
                       
     }
